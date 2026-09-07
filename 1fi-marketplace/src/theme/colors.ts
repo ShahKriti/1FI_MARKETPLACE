@@ -1,0 +1,30 @@
+// Palette matched against the provided 1Fi app screenshots: deep violet
+// primary, lavender chips/pills for badges and inactive tab segments, soft
+// shadows instead of hard borders on cards, off-white page background.
+export const colors = {
+  primary: '#6D28D9',
+  primaryDark: '#4C1D95',
+  primaryLight: '#8B5CF6',
+  primaryMuted: '#EDE9FE',
+  gradientStart: '#6C4CF5',
+  gradientEnd: '#2B1065',
+  accentGold: '#FBBF24',
+  background: '#F7F6FB',
+  surface: '#FFFFFF',
+  border: '#EFEDF6',
+  textPrimary: '#171123',
+  textSecondary: '#6B7280',
+  textMuted: '#9CA3AF',
+  textOnDark: '#FFFFFF',
+  textOnDarkMuted: 'rgba(255,255,255,0.75)',
+  success: '#16A34A',
+  error: '#DC2626',
+  errorMuted: '#FDECEC',
+  warning: '#D97706',
+  badgeBg: '#EDE9FE',
+  badgeText: '#6D28D9',
+  overlay: 'rgba(23,17,35,0.55)',
+  white: '#FFFFFF',
+  black: '#000000',
+  shadow: 'rgba(23,17,35,0.10)',
+};
