@@ -1,131 +1,227 @@
-# 1Fi Marketplace — Shop page feature
+# 1Fi Marketplace
 
-Implementation of the **1Fi Marketplace** section inside the Shop page, per the
-SDE Intern assignment. Built with **React Native (Expo) + TypeScript**.
+A React Native (Expo) + TypeScript implementation of the **1Fi Marketplace** feature, built as part of an SDE Intern assignment.
 
-## What changed after seeing real screenshots
+The project recreates the Shop experience and adds a fully functional **1Fi Marketplace** section with product browsing, product details, variant selection, EMI calculation, and order confirmation.
 
-The first pass was built blind from the spec. After seeing screenshots of the
-actual app, the whole Shop surface was rebuilt to match it:
+## 📱 Features
 
-- **Palette**: deep violet primary (`#6D28D9`), lavender chip/badge surfaces,
-  soft-shadow cards instead of hard borders, off-white page background —
-  replacing an earlier generic navy/teal guess.
-- **Layout**: the real Shop screen is a purple gradient hero banner
-  ("Shop today, Pay later using Mutual funds") followed by a **pill-shaped
-  segmented switcher** (Top Brands / Nearby Stores) and a search bar — not a
-  list of three separate menu cards. **1Fi Marketplace is added as a third
-  segment** in that same switcher, since it doesn't exist in the real app yet
-  (confirmed from the screenshots — only Top Brands and Nearby Stores are
-  there today). Top Brands and Nearby Stores are left blank, per the
-  assignment.
-- **Bottom navigation**: the real app has a floating 5-tab bar (Home / Shop /
-  EMI Dues / Limit / Profile) on every screen. It's replicated here; the four
-  tabs outside this assignment's scope route to a lightweight placeholder
-  screen (styled after the real "Profile" screen's left-aligned heading) so
-  the bar is never a dead tap.
-- **Headers**: drill-down screens (product detail, order confirmation) use a
-  minimal floating circular back button rather than a bordered app bar,
-  matching the app's borderless style.
+### Shop Screen
 
-> **Remaining honest gaps**: the hero banner's illustration (phone/laptop/car
-> bursting from a shopping bag) is a custom asset I don't have, stood in with
-> an emoji cluster so the copy/gradient/layout are faithful even though the
-> artwork isn't. Icons throughout are Unicode/emoji rather than the app's
-> real icon set, for the same reason. Bottom-tab navigation is approximated
-> with stack `navigate`/`replace` calls rather than a real
-> `@react-navigation/bottom-tabs` tab navigator, to avoid adding a dependency
-> for four screens that are explicitly out of scope — swapping in a real tab
-> navigator later is a contained change (`BottomTabBar` already models the
-> five destinations).
+* Purple gradient hero banner
+* Top Brands / Nearby Stores / 1Fi Marketplace segmented tabs
+* Product search
+* 1Fi Marketplace product grid
+* Floating bottom navigation
 
-## Running it
+### Marketplace
+
+* Product cards with:
+
+  * Product image
+  * Brand and product name
+  * Starting price
+  * No Cost EMI badge
+* Product detail screen
+* Product image gallery
+* Product variants
+* Product highlights and description
+* Ratings and pricing information
+
+### EMI Flow
+
+* EMI plans based on the selected product variant
+* Dynamic EMI calculation
+* No Cost EMI support
+* EMI tenure and interest rate
+* Total payable amount
+* EMI plan selection
+* Review & confirmation screen
+
+### UI & States
+
+* Loading states
+* Error states with retry
+* Empty states
+* Reusable components
+* Responsive scrolling using `FlatList`
+* Consistent theme, spacing, and typography
+
+## 🛠️ Tech Stack
+
+* **React Native**
+* **Expo**
+* **TypeScript**
+* **React Navigation**
+* **JavaScript**
+* **FlatList**
+* **Git & GitHub**
+
+## 📂 Project Structure
+
+```text
+1fi-marketplace/
+│
+├── App.tsx
+├── app.json
+├── package.json
+├── tsconfig.json
+│
+└── src/
+    ├── components/
+    │   ├── common/
+    │   ├── marketplace/
+    │   └── shop/
+    │
+    ├── data/
+    │   ├── mockApi.ts
+    │   ├── mockProducts.ts
+    │   └── types.ts
+    │
+    ├── hooks/
+    │   ├── useAsync.ts
+    │   ├── useEmiPlans.ts
+    │   ├── useProductDetail.ts
+    │   └── useProducts.ts
+    │
+    ├── navigation/
+    │   ├── RootNavigator.tsx
+    │   └── types.ts
+    │
+    ├── screens/
+    │   ├── marketplace/
+    │   └── shop/
+    │
+    ├── theme/
+    │   ├── colors.ts
+    │   ├── index.ts
+    │   ├── spacing.ts
+    │   └── typography.ts
+    │
+    └── utils/
+        ├── currency.ts
+        └── emiCalculator.ts
+```
+
+## 💳 EMI Calculation
+
+EMI values are **not hardcoded**.
+
+The application calculates the EMI dynamically based on the selected product variant and EMI plan.
+
+The calculation logic is separated into:
+
+```text
+src/utils/emiCalculator.ts
+```
+
+This makes the EMI calculation reusable and easy to test.
+
+## 🔌 Data Layer
+
+The project currently uses mock API functions to simulate backend requests.
+
+```text
+src/data/mockApi.ts
+```
+
+Screens access data through custom hooks instead of directly accessing mock data.
+
+For example:
+
+```text
+useProducts()
+useProductDetail()
+useEmiPlans()
+```
+
+This structure makes it easier to replace the mock API with real backend APIs later.
+
+## 🎨 Design Approach
+
+The UI was designed to closely follow the provided 1Fi application screenshots.
+
+Key design elements include:
+
+* Deep violet primary color
+* Lavender UI elements
+* Rounded cards
+* Soft shadows
+* Purple gradient hero section
+* Pill-shaped segmented navigation
+* Floating bottom navigation
+* Minimal product detail headers
+
+Some original app assets were unavailable, so emoji/Unicode icons and placeholder artwork are used in a few areas.
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/ShahKriti/1FI_MARKETPLACE.git
+```
+
+### 2. Open the project
+
+```bash
+cd 1FI_MARKETPLACE/1fi-marketplace
+```
+
+### 3. Install dependencies
 
 ```bash
 npm install
-npm start        # then press i / a / w, or scan the QR code in Expo Go
 ```
 
-## What's implemented
+### 4. Start the Expo development server
 
-**Shop screen** (`ShopHomeScreen`) with hero banner, a 3-segment switcher, and
-a search bar:
-- **Top Brands** — blank, per spec.
-- **Nearby Stores** — blank, per spec.
-- **1Fi Marketplace** — fully built:
-  - Searchable product grid (image, brand, name, starting price, "No Cost
-    EMI" badge) as a `FlatList` with the hero/switcher/search as its header,
-    so there's one scrollable surface rather than a list nested in a
-    scroll view.
-  - Product detail screen: image gallery with floating back button,
-    name/brand/rating, price with MRP/discount, variant selector,
-    highlights, description.
-  - EMI section: plans are fetched (mocked) **per selected variant's
-    price**, so switching variants re-triggers a calculation with its own
-    loading state — not a static hardcoded list.
-  - EMI plan selection (radio-style cards) showing tenure, monthly amount,
-    interest rate or "No Cost EMI" badge, and total payable.
-  - Sticky bottom bar with the selected plan's monthly amount and a
-    **Proceed** CTA, disabled until a plan is chosen.
-  - Review & Confirm screen summarizing product, variant, and EMI plan, with
-    a final confirm action (mocked — no real payment).
-  - Loading, error (with retry), and empty states throughout.
-- **Bottom tab bar** (Home / Shop / EMI Dues / Limit / Profile) on every
-  screen reached from Shop.
-
-## Structure
-
-```
-src/
-  theme/            color/typography/spacing tokens, matched to the real app
-  navigation/        RootNavigator + typed param list
-  data/
-    types.ts          Product/Variant/EMI domain types
-    mockProducts.ts    sample catalog (stand-in for a real backend)
-    mockApi.ts         async functions with simulated delay + configurable
-                        failure rate — the one file that would change to
-                        point at a real backend
-  utils/
-    currency.ts        INR formatting, discount % calculation
-    emiCalculator.ts    reducing-balance EMI math (pure, unit-testable)
-  hooks/
-    useAsync.ts            generic loading/error/data/refetch wrapper
-    useProducts.ts, useProductDetail.ts, useEmiPlans.ts
-  components/
-    common/    ScreenContainer, AppHeader, CircularIconButton, Button,
-               SearchBar, LoadingState, ErrorState, EmptyState, SectionHeader
-    shop/      ShopHeroBanner, SegmentedTabs, ShopTopSection, BottomTabBar
-    marketplace/  ProductCard, MarketplaceSection, VariantSelector,
-                  EMIPlanCard, PriceSummaryBar
-  screens/
-    shop/         ShopHomeScreen, PlaceholderScreen (Home/EMI Dues/Limit/Profile)
-    marketplace/  ProductDetailScreen, OrderConfirmationScreen
+```bash
+npm start
 ```
 
-## Design decisions worth calling out
+You can then run the application using:
 
-- **No hardcoded EMI numbers.** EMI plans are stored as *templates* (tenure,
-  interest rate, processing fee, no-cost flag); monthly amount and total
-  payable are computed on the fly against whichever variant price is
-  selected, via `computeEmiPlan` (standard reducing-balance formula).
-- **Data layer is fetch-shaped, not hardcoded into components.** Every screen
-  reads through a hook that wraps a promise-returning `mockApi.ts` function.
-  Screens never import `mockProducts.ts` directly.
-- **Loading/error states are systematic.** `useAsync` is the one place that
-  owns loading/error/refetch semantics; `LoadingState`/`ErrorState`/
-  `EmptyState` are the one set of components that render them.
-  `MOCK_API_CONFIG.simulatedFailureRate` in `mockApi.ts` can be bumped up to
-  exercise the error/retry paths while testing.
-- **One shared shell, three segments.** `ShopTopSection` (hero + switcher +
-  search) is identical regardless of which segment is active — Marketplace
-  isn't a bolted-on separate page, it plugs into the same shell Top Brands
-  and Nearby Stores use.
+* Android emulator
+* iOS simulator
+* Expo Go
+* Web browser
 
-## What I'd do next with more time / real access to the app
+## 🧪 Testing the Error State
 
-- Replace `mockApi.ts` with real API calls once endpoints exist.
-- Swap the emoji icon set and hero illustration for the app's real assets.
-- Move bottom-tab navigation to `@react-navigation/bottom-tabs`.
-- Add unit tests for `emiCalculator.ts` and component tests for the EMI
-  selection flow.
-- Add pagination/search debouncing if the real catalog is large.
+The mock API includes a configurable failure rate that can be used to test loading, error, and retry states.
+
+Check:
+
+```text
+src/data/mockApi.ts
+```
+
+and adjust the simulated failure rate when required.
+
+## 🔮 Future Improvements
+
+If this project were connected to a production backend, I would:
+
+* Replace the mock API with real API endpoints
+* Add authentication
+* Add real product images and application assets
+* Add pagination for large product catalogs
+* Add search debouncing
+* Add unit tests for EMI calculations
+* Add component tests for the EMI selection flow
+* Use React Navigation's Bottom Tab Navigator
+* Add real checkout/payment integration
+
+## 👩‍💻 Author
+
+**Kritika Shah**
+
+B.Tech Information Technology — 2026
+
+GitHub: [ShahKriti](https://github.com/ShahKriti)
+
+---
+
+⭐ If you find this project useful, feel free to explore the repository.
+
